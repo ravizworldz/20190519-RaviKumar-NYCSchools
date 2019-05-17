@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    android:paddingBottom="80dp"
+    android:fillViewport="true"
+    android:scrollbars="vertical">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    tools:context=".ui.SchoolDetailsActivity">
+
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:paddingTop="20dp"
+        android:text="title" />
+
+
+    <TextView
+        android:id="@+id/tv_satreading"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:paddingTop="10dp"
+        android:text="title" />
+
+    <TextView
+        android:id="@+id/tv_satmath"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_satreading"
+        android:paddingTop="10dp"
+        android:text="title" />
+    <TextView
+        android:id="@+id/tv_satwriting"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_satmath"
+        android:paddingTop="10dp"
+        android:text="title" />
+
+    <TextView
+        android:id="@+id/tv_overview"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tv_satwriting"
+        android:paddingTop="10dp"
+        android:text="Overview" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_overview"
+        android:paddingTop="10dp"
+        android:text="" />
+
+
+    <TextView
+        android:id="@+id/tv_address"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_description"
+        android:paddingTop="10dp"
+        android:text="" />
+
+
+    <TextView
+        android:id="@+id/tv_phone"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_address"
+        android:paddingTop="10dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tv_website"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/tv_phone"
+        android:paddingTop="10dp"
+        android:text="" />
+
+
+</android.support.constraint.ConstraintLayout>
+</ScrollView>
