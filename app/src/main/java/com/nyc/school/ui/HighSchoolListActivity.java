@@ -1,18 +1,21 @@
 package com.nyc.school.ui;
 
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nyc.school.R;
+import com.nyc.school.constants.AppConstants;
 import com.nyc.school.model.SchoolDetailModel;
 import com.nyc.school.model.SchoolListModel;
 import com.nyc.school.network.APIInterface;
@@ -23,6 +26,8 @@ import com.nyc.school.presenter.ISchoolListPresenter;
 import com.nyc.school.presenter.SchoolListPresenter;
 import com.nyc.school.ui.adapter.ItemClickListener;
 import com.nyc.school.ui.adapter.SchoolListAdapter;
+import com.nyc.school.ui.viewmodels.SchoolDetailsViewModel;
+import com.nyc.school.ui.viewmodels.SchoolListViewModel;
 import com.nyc.school.utils.LogUtil;
 
 import java.util.List;
@@ -45,16 +50,17 @@ public class HighSchoolListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_school_list);
-
-        getSchoolList();
+        loadSchoolList();
     }
 
-    private void getSchoolList() {
-        SchoolListPresenter listPresenter = new SchoolListPresenter();
-        listPresenter.setListResponseListener(new ISchooListResponse() {
+    private void loadSchoolList() {
+        SchoolListViewModel schoolListViewModel = ViewModelProviders.of(this).get(SchoolListViewModel.class);
+
+        schoolListViewModel.getSchoolList(new ISchooListResponse() {
             @Override
             public void onSuccess(List<SchoolListModel> schoolListModels) {
-                getSchoolDetails(schoolListModels);
+                loadSchoolDetails(schoolListModels);
+
             }
 
             @Override
@@ -72,14 +78,15 @@ public class HighSchoolListActivity extends AppCompatActivity {
                 hideProgress();
             }
         });
-        listPresenter.getSchoolList();
-    }
 
-    private void getSchoolDetails(final List<SchoolListModel> schoolListModels) {
-        SchoolListPresenter detailsPresenter = new SchoolListPresenter();
-        detailsPresenter.setDetailsResponseListener(new ISchoolDetailsResponse() {
+    }
+    private void loadSchoolDetails(final List<SchoolListModel> schoolListModels) {
+//        SchoolListPresenter detailsPresenter = new SchoolListPresenter();
+        SchoolDetailsViewModel schoolDetailsViewModel = ViewModelProviders.of(this).get(SchoolDetailsViewModel.class);
+
+        schoolDetailsViewModel.getSchoolDetails(new ISchoolDetailsResponse() {
             @Override
-            public void onSuccess(List<SchoolDetailModel> schoolDetailsModels) {
+            public void onSuccess(ArrayMap<String, SchoolDetailModel> schoolDetailsModels) {
                showSchoolList(schoolListModels, schoolDetailsModels);
             }
 
@@ -98,14 +105,13 @@ public class HighSchoolListActivity extends AppCompatActivity {
                 hideProgress();
             }
         });
-        detailsPresenter.getSATList();
     }
 
 
     /*Method to generate List of data using RecyclerView with school list adapter*/
-    private void showSchoolList(final List<SchoolListModel> schoolList, final List<SchoolDetailModel>  detailsList) {
+    private void showSchoolList(final List<SchoolListModel> schoolList, final ArrayMap<String, SchoolDetailModel>   detailsList) {
         schoolListRecyclerView = findViewById(R.id.schooListRecyclerView);
-        schoolListAdapter = new SchoolListAdapter(this, schoolList, detailsList, new View.OnClickListener() {
+        schoolListAdapter = new SchoolListAdapter(this, schoolList, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
@@ -114,21 +120,18 @@ public class HighSchoolListActivity extends AppCompatActivity {
                 SchoolListModel schoolListModel = schoolList.get(position);
                 String  dbn = schoolListModel.getDbn();
                 LogUtil.log("HighSchoolListActivity", "item clicked dbn " + dbn);
-                int i = 0;
-                SchoolDetailModel detailModel = null;
-                for(i =0; i<detailsList.size(); i++) {
-                    detailModel  = detailsList.get(i);
 
-                    if(dbn.equals(detailModel.getDbn())){
-                        break;
-                    }
+                SchoolDetailModel detailModel = null;
+                if(detailsList.containsKey(dbn)) {
+                    detailModel  = detailsList.get(dbn);
                 }
                 Intent intent = new Intent(HighSchoolListActivity.this, SchoolDetailsActivity.class);
-                intent.putExtra("detailModel", detailModel);
-                intent.putExtra("phone", schoolListModel.getPhone_number());
-                intent.putExtra("address", schoolListModel.getLocation());
-                intent.putExtra("description",schoolListModel.getAcademicopportunities1()+" "+ schoolListModel.getAcademicopportunities2());
-                intent.putExtra("website", schoolListModel.getWebsite());
+                intent.putExtra(AppConstants.SCHOOL_OBJ, detailModel);
+                intent.putExtra(AppConstants.SCHOOL_NAME, schoolListModel.getSchool_name());
+                intent.putExtra(AppConstants.SCHOOL_PHONE, schoolListModel.getPhone_number());
+                intent.putExtra(AppConstants.SCHOOL_ADDRESS, schoolListModel.getLocation());
+                intent.putExtra(AppConstants.SCHOOL_DESC,schoolListModel.getAcademicopportunities1()+" "+ schoolListModel.getAcademicopportunities2());
+                intent.putExtra(AppConstants.SCHOOL_WEBSITE, schoolListModel.getWebsite());
 
                 startActivity(intent);
             }

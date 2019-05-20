@@ -1,5 +1,7 @@
 package com.nyc.school.network;
 
+import com.nyc.school.constants.AppConstants;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -18,7 +20,7 @@ public class NetworkClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://data.cityofnewyork.us/resource/")
+                .baseUrl(AppConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

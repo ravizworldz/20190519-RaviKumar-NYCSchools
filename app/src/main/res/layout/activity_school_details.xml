@@ -29,11 +29,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
         android:paddingTop="20dp"
-        android:text="title" />
+        android:text="" />
 
 
     <TextView
@@ -52,7 +51,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_satreading"
         android:paddingTop="10dp"
-        android:text="title" />
+        android:text="" />
     <TextView
         android:id="@+id/tv_satwriting"
         style="@style/TextAppearance.AppCompat.Medium"
@@ -60,7 +59,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_satmath"
         android:paddingTop="10dp"
-        android:text="title" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_overview"
